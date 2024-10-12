@@ -7,18 +7,10 @@ const genAI = new GoogleGenerativeAI(gemini_api_key);
 const fileManager = new GoogleAIFileManager(gemini_api_key);
 
 const ingredientsSchema = {
-    description: "List of identified ingredients, don't be too specific, e.g. 'tomato' instead of 'cherry tomato' or any brand names.",
+    description: "Take image input. Following the specified JSON format, extract all ingredients from the image and return a list.",
     type: SchemaType.ARRAY,
     items: {
       type: SchemaType.STRING,
-      /*properties: {
-        recipeName: {
-          type: SchemaType.STRING,
-          description: "Name of the recipe",
-          nullable: false,
-        },
-      },*/
-      //required: ["recipeName"],
     },
 };
 const foodIdmodel = genAI.getGenerativeModel({

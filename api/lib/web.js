@@ -6,6 +6,7 @@ const path = require('path');
 const sharp = require('sharp');
 
 const foodId = require('./foodid.js');
+const genRecipes = require('./genrecipe.js');
 
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -48,12 +49,50 @@ app.post('/imageUpload', async(req, res) => {
 
         console.log('Gemini Ingredient Result:', result);
 
+        // Parse the result string into an array
+        const ingredientsArray = JSON.parse(result.replace(/'/g, '"'));
+
+        // Convert the array to a JSON object
+        const ingredientsJson = {
+            ingredients: ingredientsArray
+        };
+
         res.json({
             result: "success",
-            data: result
+            data: ingredientsJson
         });
     } catch (error) {
         console.error("Error in /imageUpload route:", error);
+        res.status(500).json({
+            result: "error",
+            message: error.message
+        });
+    }
+});
+app.post('/genRecipe', async(req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    try {
+        const { ingredients } = req.body;
+        if (!ingredients) {
+            throw new Error('No ingredients provided');
+        }
+
+        console.log('Received ingredients:', ingredients);
+
+        const result = await genRecipes.getRecipies(ingredients);
+
+        console.log('Gemini Recipe Result:', result);
+
+        // Parse the result string into an array
+        const recipesJson = JSON.parse(result.replace(/'/g, '"'));
+
+        res.json({
+            result: "success",
+            data: recipesJson
+        });
+    } catch (error) {
+        console.error("Error in /genRecipe route:", error);
         res.status(500).json({
             result: "error",
             message: error.message
