@@ -1,4 +1,4 @@
 const db = require('./lib/db.js')
 const web = require('./lib/web.js')
 
-console.log("Initiating RecipeSnap Server")
+console.log("Initiating SavorSnap Server")

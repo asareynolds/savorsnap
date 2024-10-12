@@ -1,13 +1,15 @@
 const express = require('express')
 var bodyParser = require('body-parser')
 const cors = require('cors');
-const user = require('./user.js');
 const fs = require('fs');
+const path = require('path');
+const sharp = require('sharp');
 
-const { rootOrgId,default_owner } = require('../config.json');
+const foodId = require('./foodid.js');
 
 const app = express();
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use(cors());
 app.listen(80, () => {
@@ -16,30 +18,55 @@ app.listen(80, () => {
 app.set('trust proxy', true)
 
 /*
-Users
+    POST /imageUpload
 */
-//Run by user (self)
-app.post('/user/register', async(req, res) => {
-    const { client_id, client_ip } = authFromHeaders(req)
-    const { user_email, user_pass, user_fname, user_lname } = req.body
-
+app.post('/imageUpload', async(req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     try {
-        const createUserResult = await user.create(user_email, user_pass, user_fname, user_lname);
+        const { image } = req.body;
+        if (!image) {
+            throw new Error('No image data provided');
+        }
 
-        email.sendVerification(createUserResult);
+        console.log('Received image data length:', image.length);
 
-        const createTokenResult = await token.generate("standard", createUserResult, client_id, client_ip);
+        const imagePath = path.join('./images', `${Date.now()}.png`);
+
+        const imageBuffer = Buffer.from(image, 'base64');
+
+        // Use Sharp to identify the image type and convert to PNG
+        const imageInfo = await sharp(imageBuffer).metadata();
+        console.log('Image type:', imageInfo.format);
+
+        await sharp(imageBuffer)
+            .png()
+            .toFile(imagePath);
+
+        const uploadResult = await foodId.uploadImage(imagePath);
+        const result = await foodId.getIngredients(uploadResult);
+
+        console.log('Gemini Ingredient Result:', result);
+
         res.json({
             result: "success",
-            id: createUserResult,
-            token: createTokenResult
+            data: result
         });
     } catch (error) {
-        res.json({
+        console.error("Error in /imageUpload route:", error);
+        res.status(500).json({
             result: "error",
-            type: error
+            message: error.message
         });
     }
+});
+
+app.get('/', async(req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    console.log("Received request from:", req.ip);
+
+    res.json({
+        result: "success"
+    });
 });
