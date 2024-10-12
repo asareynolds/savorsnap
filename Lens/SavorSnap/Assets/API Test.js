@@ -1,25 +1,24 @@
-// JavaScript
-async function testApiCall() {
-    const url = 'https://api.savorsnap.one';
-    
-    try {
-        const response = await fetch(url, {
-            method: 'GET', // Change to 'POST', 'PUT', etc. as needed
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any additional headers here
-            }
-        });
+// main.js
+//@input Asset.RemoteServiceModule remoteServiceModule 
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('API Response:', data);
-    } catch (error) {
-        console.error('Error during API call:', error);
-    }
+function onHttpRequestEnd(response) {
+  print('Request response received');
+  print('Status code: ' + response.statusCode);
+  print('Content type: ' + response.contentType);
+  print('Body: ' + response.body);
+  print('Headers: ' + response.headers);
 }
 
-testApiCall();
+function makeApiCall() {
+  var httpRequest = RemoteServiceHttpRequest.create();
+  httpRequest.url = 'https://api.savorsnap.one/';
+  httpRequest.method = RemoteServiceHttpRequest.HttpRequestMethod.Get;
+  // Add headers if needed:
+  // httpRequest.setHeader('Content-Type', 'application/json');
+  // httpRequest.setHeader('Authorization', 'Bearer your_api_token');
+
+  script.remoteServiceModule.performHttpRequest(httpRequest, onHttpRequestEnd);
+}
+
+// Trigger the API call when the Lens starts:
+script.createEvent("OnStartEvent").bind(makeApiCall);
