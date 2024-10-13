@@ -74,7 +74,7 @@ snapButton.addEventListener('click', async () => {
 });
 
 function callImageUploadAPI(base64Image) {
-  const apiUrl = "https://eyecookapi.tgm.one/imageUpload";
+  const apiUrl = "https://api.eyecook.one/imageUpload";
 
   fetch(apiUrl, {
     method: "POST",
@@ -101,7 +101,7 @@ function callImageUploadAPI(base64Image) {
 }
 
 function callRecipeAPI(ingredients) {
-  const apiUrl = "https://eyecookapi.tgm.one/genRecipe";
+  const apiUrl = "https://api.eyecook.one/genRecipe";
 
   console.log("Ingredients being sent:", ingredients);
   fetch(apiUrl, {
