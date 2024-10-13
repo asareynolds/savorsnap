@@ -55,10 +55,13 @@ function callImageUploadAPI(base64Image) {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
+
         return response.json();
-      })
+        })
       .then(data => {
         const ingredients = data.ingredients;
+
+        console.log(data);
         callRecipeAPI(ingredients);
       })
       .catch(error => {
@@ -70,6 +73,7 @@ function callImageUploadAPI(base64Image) {
 function callRecipeAPI(ingredients) {
   const apiUrl = "https://api.savorsnap.one/genRecipe";
 
+  console.log(ingredients);
   fetch(apiUrl, {
     method: "POST",
     headers: {
