@@ -1,0 +1,97 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 2em;
+  color: #f48b29; /* Example accent color */
+}
+
+#snapButton {
+  background-color: #f48b29;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.spectacles-icon {
+  display: inline-block;
+  width: 24px;
+  height: 12px;
+  margin-right: 8px;
+  position: relative;
+}
+
+.lens {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 1px; 
+}
+
+.left-lens {
+  left: 0;
+}
+
+.right-lens {
+  right: 0;
+}
+
+.bridge {
+  width: 6px;
+  height: 2px;
+  background-color: white;
+  position: absolute;
+  top: 5px;
+  left: 9px;
+}
+
+#imageUpload {
+  display: none; 
+}
+
+#recipeResults, #recipeDetails {
+  /* ... (styles remain similar to previous example) ... */
+}
+
+#backButton {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-bottom: 10px; 
+  padding: 0;
+}
