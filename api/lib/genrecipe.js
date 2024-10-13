@@ -5,7 +5,7 @@ const { gemini_api_key } = require('../config.json');
 const genAI = new GoogleGenerativeAI(gemini_api_key);
 
 const recipesSchema = {
-    description: "Following the specified JSON format, create 20 recipes that use some or all of the provided ingredients.  For each recipe, list the necessary ingredients, list any allergy considerations (briefly, listing single allergic items like 'gluten' or 'dairy'). List the cuisine type as well, and estimate a prep time. Finally, list all of the instructions necessary to make the item, broken down by step.",
+    description: "Following the specified JSON format, create 10 recipes that use some or all of the provided ingredients.  For each recipe, list the necessary ingredients, list any allergy considerations (briefly, listing single allergic items like 'gluten' or 'dairy'). List the cuisine type as well, and estimate a prep time. Finally, list all of the instructions necessary to make the item, broken down by step.",
     type: "object",
     properties: {
         recipes: {
@@ -14,6 +14,9 @@ const recipesSchema = {
                 type: "object",
                 properties: {
                     name: {
+                        type: "string"
+                    },
+                    imageURL: {
                         type: "string"
                     },
                     ingredients: {
@@ -44,7 +47,8 @@ const recipesSchema = {
                     "allergies",
                     "cuisine_type",
                     "prep_time_minutes",
-                    "instruction_steps"
+                    "instruction_steps",
+                    "imageURL"
                 ]
             }
         }
@@ -61,7 +65,7 @@ const recipeModel = genAI.getGenerativeModel({
 const getRecipies = async (ingredients) => {
     try {
         const result = await recipeModel.generateContent([
-            `Following the specified JSON format, create 20 recipes that use some or all of the provided ingredients.  For each recipe, list the necessary ingredients, list any allergy considerations (briefly, listing single allergic items like 'gluten' or 'dairy'). List the cuisine type as well, and estimate a prep time. Finally, list all of the instructions necessary to make the item, broken down by step. Here is a set of ingredients, generate 20 varied and delicious recipes. Ingredients are: ${ingredients.join(", ")}`,
+            `Following the specified JSON format, create 10 recipes that use some or all of the provided ingredients.  For each recipe, list the necessary ingredients, list any allergy considerations (briefly, listing single allergic items like 'gluten' or 'dairy'). List the cuisine type as well, and estimate a prep time. Finally, list all of the instructions necessary to make the item, broken down by step. Here is a set of ingredients, generate 10 varied and delicious recipes. For the imageURL string, only add URL's to real images on the internet that are related to the recipe name. Ingredients are: ${ingredients.join(", ")}`,
         ]);
         return result.response.text();
     } catch (error) {

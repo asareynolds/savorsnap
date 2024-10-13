@@ -1,0 +1,146 @@
+{
+    "result": "success",
+    "data": {
+        "recipes": [{
+            "allergies": "dairy",
+            "cuisine_type": "Breakfast",
+            "ingredients": ["protein bar", "yogurt", "apple"],
+            "instruction_steps": ["Slice apple.", "Mix yogurt with protein bar chunks.", "Top with apple slices"],
+            "name": "Protein Yogurt Parfait",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "dairy",
+            "cuisine_type": "Snack",
+            "ingredients": ["cheese", "apple"],
+            "instruction_steps": ["Slice cheese and apple", "Serve together"],
+            "name": "Apple Cheese Snack",
+            "prep_time_minutes": 3
+        }, {
+            "allergies": "dairy",
+            "cuisine_type": "Breakfast",
+            "ingredients": ["eggs", "cheese", "bread"],
+            "instruction_steps": ["Scramble eggs with cheese.", "Serve on toast"],
+            "name": "Cheese Omelet Toast",
+            "prep_time_minutes": 7
+        }, {
+            "allergies": "dairy",
+            "cuisine_type": "Snack",
+            "ingredients": ["yogurt", "juice"],
+            "instruction_steps": ["Mix yogurt and juice.", "Serve chilled"],
+            "name": "Yogurt Juice Blend",
+            "prep_time_minutes": 2
+        }, {
+            "allergies": "dairy",
+            "cuisine_type": "Breakfast",
+            "ingredients": ["eggs", "tomatoes", "mozzarella cheese", "bread"],
+            "instruction_steps": ["Fry eggs.", "Add mozzarella and tomatoes to eggs while frying.", "Serve on toasted bread"],
+            "name": "Egg and Cheese Sandwich",
+            "prep_time_minutes": 10
+        }, {
+            "allergies": "",
+            "cuisine_type": "Snack",
+            "ingredients": ["protein bar", "kombucha"],
+            "instruction_steps": ["Eat protein bar and drink kombucha"],
+            "name": "Protein Boost",
+            "prep_time_minutes": 2
+        }, {
+            "allergies": "dairy",
+            "cuisine_type": "Breakfast",
+            "ingredients": ["yogurt", "greens", "tomatoes"],
+            "instruction_steps": ["Toss greens and tomatoes with yogurt.", "Serve as salad"],
+            "name": "Yogurt Salad",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "",
+            "cuisine_type": "Snack",
+            "ingredients": ["apple", "almond milk"],
+            "instruction_steps": ["Slice apple and serve with almond milk"],
+            "name": "Apple Almond Milk",
+            "prep_time_minutes": 3
+        }, {
+            "allergies": "",
+            "cuisine_type": "Breakfast",
+            "ingredients": ["coffee", "hazelnut milk"],
+            "instruction_steps": ["Brew coffee.", "Add hazelnut milk"],
+            "name": "Hazelnut Coffee",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "",
+            "cuisine_type": "Snack",
+            "ingredients": ["juice", "bread"],
+            "instruction_steps": ["Toast bread.", "Serve with chilled juice"],
+            "name": "Juice and Toast",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "",
+            "cuisine_type": "Snack",
+            "ingredients": ["kombucha", "carrot"],
+            "instruction_steps": ["Peel and slice carrots.", "Serve with chilled kombucha"],
+            "name": "Kombucha Carrot Refresher",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "dairy",
+            "cuisine_type": "Breakfast",
+            "ingredients": ["eggs", "bread", "cheese"],
+            "instruction_steps": ["Make scrambled eggs with cheese.", "Serve on toast"],
+            "name": "Scrambled Eggs with Cheese on Toast",
+            "prep_time_minutes": 8
+        }, {
+            "allergies": "",
+            "cuisine_type": "Salad",
+            "ingredients": ["greens", "tomatoes", "lemon", "carrot"],
+            "instruction_steps": ["Toss greens, sliced tomatoes and shredded carrots together.", "Dress with lemon juice"],
+            "name": "Simple Green Salad",
+            "prep_time_minutes": 7
+        }, {
+            "allergies": "",
+            "cuisine_type": "Snack",
+            "ingredients": ["apple", "protein bar"],
+            "instruction_steps": ["Slice apple and serve with protein bar"],
+            "name": "Apple Protein Snack",
+            "prep_time_minutes": 3
+        }, {
+            "allergies": "",
+            "cuisine_type": "Breakfast",
+            "ingredients": ["coffee", "almond milk"],
+            "instruction_steps": ["Brew coffee.", "Add almond milk"],
+            "name": "Almond Coffee",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "",
+            "cuisine_type": "Side Dish",
+            "ingredients": ["broccoli", "lemon"],
+            "instruction_steps": ["Steam broccoli.", "Dress with lemon juice"],
+            "name": "Lemon Broccoli",
+            "prep_time_minutes": 10
+        }, {
+            "allergies": "dairy",
+            "cuisine_type": "Snack",
+            "ingredients": ["yogurt", "apple", "cheese"],
+            "instruction_steps": ["Dice apple and cheese.", "Mix with yogurt"],
+            "name": "Apple Yogurt Cheese Mix",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "",
+            "cuisine_type": "Side Dish",
+            "ingredients": ["cauliflower", "carrot"],
+            "instruction_steps": ["Steam cauliflower and carrots until tender"],
+            "name": "Steamed Cauliflower and Carrots",
+            "prep_time_minutes": 15
+        }, {
+            "allergies": "",
+            "cuisine_type": "Snack",
+            "ingredients": ["bread", "tomato"],
+            "instruction_steps": ["Toast bread.", "Slice tomato and place on toast"],
+            "name": "Tomato Toast",
+            "prep_time_minutes": 5
+        }, {
+            "allergies": "",
+            "cuisine_type": "Beverage",
+            "ingredients": ["lemon", "juice"],
+            "instruction_steps": ["Mix lemon juice with juice.", "Serve chilled"],
+            "name": "Lemon Juice Blend",
+            "prep_time_minutes": 3
+        }]
+    }
+}
