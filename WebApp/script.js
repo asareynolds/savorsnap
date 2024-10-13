@@ -49,19 +49,19 @@ function callImageUploadAPI(base64Image) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({image: base64Image})
+    body: JSON.stringify({ image: base64Image })
   })
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         return response.json();
-        })
+      })
       .then(data => {
-        const ingredients = data.ingredients;
+        // Correctly access the ingredients array from the response data:
+        const ingredients = data.data.ingredients; // Access ingredients from data.data
 
-        console.log(data);
+        console.log("Ingredients received from /imageUpload:", ingredients);
         callRecipeAPI(ingredients);
       })
       .catch(error => {
@@ -73,13 +73,14 @@ function callImageUploadAPI(base64Image) {
 function callRecipeAPI(ingredients) {
   const apiUrl = "https://api.savorsnap.one/genRecipe";
 
-  console.log(ingredients);
+  console.log("Ingredients being sent:", ingredients);
   fetch(apiUrl, {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ ingredients: ingredients })
+    // Corrected format for ingredients:
+    body: JSON.stringify({ ingredients })
   })
       .then(response => {
         if (!response.ok) {
@@ -116,7 +117,7 @@ function displayRecipes(recipes) {
 
 function displayRecipeDetails(recipe) {
   recipeName.textContent = recipe.name;
-  recipeImage.src = recipe.imageUrl; // Assuming the API provides an image URL
+  recipeImage.src = recipe.imageUrl;
   cookingTime.textContent = `Cooking Time: ${recipe.prep_time_minutes} minutes`;
 
   instructions.innerHTML = '';
@@ -133,4 +134,4 @@ function displayRecipeDetails(recipe) {
 backButton.addEventListener('click', () => {
   recipeDetails.style.display = 'none';
   recipeResults.style.display = 'block';
-}); 
+});
