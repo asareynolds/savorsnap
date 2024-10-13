@@ -75,7 +75,7 @@ function callRecipeAPI(ingredients) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ ingredients })
+    body: JSON.stringify({ ingredients: ingredients })
   })
       .then(response => {
         if (!response.ok) {
