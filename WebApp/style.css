@@ -19,18 +19,40 @@ body {
     max-width: 600px;
 }
 
-header {
+header { 
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Center horizontally */
     align-items: center;
     width: 100%;
     margin-bottom: 30px;
 }
 
+.camera-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+
+}
+
 .logo {
     font-weight: 600;
     font-size: 2em;
-    color: #f48b29; /* Example accent color */
+    color: #f48b29;
+    margin-bottom: 20px; 
+}
+
+#cameraView {
+  width: 320px; 
+  height: 240px; 
+  border: 1px solid #ccc;
+  overflow: hidden; 
+  margin-bottom: 30px; 
+}
+
+#video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
 }
 
 #snapButton {
@@ -44,6 +66,7 @@ header {
     display: flex;
     align-items: center;
 }
+
 
 .spectacles-icon {
     display: inline-block;
@@ -117,6 +140,12 @@ header {
     cursor: pointer;
     margin-bottom: 10px;
     padding: 0;
+}
+
+#video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
 }
 
 /* Loading Screen Styles */

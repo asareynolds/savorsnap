@@ -7,6 +7,7 @@ const sharp = require('sharp');
 
 const foodId = require('./foodid.js');
 const genRecipes = require('./genrecipe.js');
+const genImage = require('./genimage.js');
 
 const app = express();
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -94,6 +95,33 @@ app.post('/genRecipe', async(req, res) => {
         });
     } catch (error) {
         console.error("Error in /genRecipe route:", error);
+        res.status(500).json({
+            result: "error",
+            message: error.message
+        });
+    }
+});
+app.post('/genImage', async(req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    try {
+        const { description } = req.body;
+        if (!description) {
+            throw new Error('No description provided');
+        }
+
+        console.log('Received description:', description);
+
+        const result = await genImage.getImage(description);
+
+        console.log('Image Result:', result);
+
+        res.json({
+            result: "success",
+            data: result
+        });
+    } catch (error) {
+        console.error("Error in /genImage route:", error);
         res.status(500).json({
             result: "error",
             message: error.message
