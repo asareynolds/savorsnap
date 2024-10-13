@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RecipeSnap</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"> 
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="logo">RecipeSnap</h1>
+      <input type="file" id="imageUpload" accept="image/*">
+      <button id="snapButton">
+        <span class="spectacles-icon">
+          <div class="lens left-lens"></div>
+          <div class="lens right-lens"></div>
+          <div class="bridge"></div>
+        </span>
+        Snap!
+      </button>
+    </header>
+
+    <main>
+      <div id="recipeResults">
+        <h2>Recipes</h2>
+        <ul id="recipeList">
+          </ul>
+      </div>
+
+      <div id="recipeDetails">
+        <button id="backButton">← Back</button> <h3 id="recipeName"></h3>
+        <img id="recipeImage" src="" alt="Recipe Image">
+        <p id="cookingTime"></p>
+        <ol id="instructions">
+          </ol>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
