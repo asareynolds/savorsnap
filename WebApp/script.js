@@ -10,6 +10,8 @@ const backButton = document.getElementById('backButton');
 const loadingScreen = document.getElementById('loadingScreen');
 const ingredientsList = document.getElementById('ingredientsList');
 const allergiesInfo = document.getElementById('allergies');
+const cuisineInfo = document.getElementById('cuisine');
+
 let capturedImageBase64 = null;
 
 // Get camera access and display the feed
@@ -131,19 +133,31 @@ function callRecipeAPI(ingredients) {
 }
 
 function displayRecipes(recipes) {
-  recipeList.innerHTML = '';
+  recipeList.innerHTML = ''; // Clear previous results
   recipeResults.style.display = 'block';
   loadingScreen.style.display = 'none';
 
   recipes.forEach(recipe => {
+    // Create a list item container for each recipe
     const listItem = document.createElement('li');
+    listItem.classList.add('recipe-item'); // Add a class for styling
+
     listItem.innerHTML = `
-      <span>${recipe.name}</span>
-      <span class="prep-time">${recipe.prep_time_minutes} min</span> 
-    `;
+  <h3 class="recipe-name">${recipe.name}</h3>
+  <div class="recipe-info">
+    <div class="info-top">
+      <span class="prep-time">Prep: ${recipe.prep_time_minutes} min</span>
+      <span class="cuisine">Cuisine: ${recipe.cuisine_type}</span>
+    </div>
+    ${recipe.allergies ? `<span class="allergies">Allergies: ${recipe.allergies}</span>` : ''}
+  </div>
+`;
+
+    // Add an event listener to show details when a recipe is clicked
     listItem.addEventListener('click', () => {
       displayRecipeDetails(recipe);
     });
+
     recipeList.appendChild(listItem);
   });
 }
@@ -151,8 +165,13 @@ function displayRecipes(recipes) {
 function displayRecipeDetails(recipe) {
   recipeName.textContent = recipe.name;
   cookingTime.textContent = `Cooking Time: ${recipe.prep_time_minutes} minutes`;
-  allergiesInfo.textContent = `Allergies: ${recipe.allergies}`;
+  allergiesInfo.textContent = ""; // Clear previous content
+  if (recipe.allergies) { 
+    allergiesInfo.textContent = `Allergies: ${recipe.allergies}`; 
+  }
+  cuisineInfo.textContent = `Cuisine: ${recipe.cuisine_type}`;
 
+  // Display ingredients
   ingredientsList.innerHTML = '';
   recipe.ingredients.forEach(ingredient => {
     const ingredientItem = document.createElement('li');
@@ -160,10 +179,20 @@ function displayRecipeDetails(recipe) {
     ingredientsList.appendChild(ingredientItem);
   });
 
+  // Display instructions with optional timers
   instructions.innerHTML = '';
   recipe.instruction_steps.forEach(step => {
     const listItem = document.createElement('li');
-    listItem.textContent = step;
+
+    // Check if the step has a timer
+    if (step.timer_seconds) {
+      const minutes = Math.floor(step.timer_seconds / 60);
+      const seconds = step.timer_seconds % 60;
+      listItem.textContent = `${step.step} (Timer: ${minutes}m ${seconds}s)`;
+    } else {
+      listItem.textContent = step.step; 
+    }
+
     instructions.appendChild(listItem);
   });
 
