@@ -24,6 +24,7 @@
   CurrentVisibility: Editable
   MaxVisibility: Editable
   ScriptInputsHidden:
+    homeButton: false
     initiateButton: false
     initiateContainer: false
     instruction: false
@@ -61,6 +62,7 @@
       instruction: !<reference.Text> 00000000-0000-0000-0000-000000000000
       prevButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
       nextButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
+      homeButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
   ScriptTypes:
     -
       {}
@@ -82,3 +84,4 @@
     - // @input Component.Text instruction
     - // @input PinchButton prevButton
     - // @input PinchButton nextButton
+    - // @input PinchButton homeButton

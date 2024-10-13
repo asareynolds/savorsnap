@@ -29,6 +29,8 @@ export class GetRecipes extends BaseScriptComponent {
     @input prevButton: PinchButton;
     @input nextButton: PinchButton;
 
+    @input homeButton: PinchButton;
+
     onAwake() {
         this.createEvent('OnStartEvent').bind(() => {
           this.initiateButtonEvent();
@@ -39,7 +41,7 @@ export class GetRecipes extends BaseScriptComponent {
         this.stepsCont.enabled = false;
 
         globalThis.recipeData = null;
-        globalThis.stepNumber = 0;
+        globalThis.stepNumber = 1;
     }
     
     async checkForRecipes() {
@@ -100,9 +102,9 @@ export class GetRecipes extends BaseScriptComponent {
     } 
 
     buildRecipe(recipe,imageURL){
-        print("TESTSETEST: " + JSON.stringify(recipe));
+        print(JSON.stringify(recipe));
 
-        //globalThis.recipeData = recipe;
+        globalThis.recipeData = recipe;
         this.recipe.enabled = true;
         this.initiateContainer.enabled = false;
 
@@ -110,20 +112,24 @@ export class GetRecipes extends BaseScriptComponent {
         this.recipeIngedients.text = "Ingredients:\n"+recipe.data.recipe[0].ingredients.join('\n');
         this.recipeTime.text = JSON.stringify(recipe.data.recipe[0].prep_time_minutes) + " minutes";
         
-        //this.stepsButtonEvent();
+        this.stepsButtonEvent();
 
         this.remoteMediaModule.loadResourceAsImageTexture(imageURL,  (texture) => {
             this.recipeImageMat.mainPass.baseTex = texture;
         }, (errorMessage) => {print(errorMessage)});
     }
 
-    /*stepsButtonEvent() {
+    stepsButtonEvent() {
         let onButtonPinchedCallback = () => {      
             this.stepsCont.enabled = true;  
             this.recipe.enabled = false;
 
             globalThis.stepNumber = 1;
-            stepBuilder();
+            this.stepBuilder();
+
+            this.nextStepEvent();
+            this.prevStepEvent();
+            this.homeEvent();
         };
     
         this.stepsStartButton.onButtonPinched.add(onButtonPinchedCallback);
@@ -131,16 +137,16 @@ export class GetRecipes extends BaseScriptComponent {
 
     nextStepEvent() {
         let onButtonPinchedCallback = () => { 
-            globalThis.stepNumber = 1;
-            stepBuilder();
+            globalThis.stepNumber+=1;
+            this.stepBuilder();
         };
     
         this.nextButton.onButtonPinched.add(onButtonPinchedCallback);
     }
     prevStepEvent() {
         let onButtonPinchedCallback = () => {  
-            globalThis.stepNumber = 1;
-            stepBuilder();
+            globalThis.stepNumber-=1;
+            this.stepBuilder();
         };
     
         this.prevButton.onButtonPinched.add(onButtonPinchedCallback);
@@ -162,5 +168,20 @@ export class GetRecipes extends BaseScriptComponent {
         else {
             this.nextButton.enabled = true;
         }
-    }*/
+    }
+
+    homeEvent() {
+        let onButtonPinchedCallback = () => {  
+            this.recipe.enabled = false;
+            this.stepsCont.enabled = false;
+            this.initiateContainer.enabled = true;
+
+            globalThis.recipeData = null;
+            globalThis.stepNumber = 1;
+            
+            this.onAwake();
+        };
+    
+        this.homeButton.onButtonPinched.add(onButtonPinchedCallback);
+    }
 } 
