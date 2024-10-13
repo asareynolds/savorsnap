@@ -15,8 +15,10 @@ const cuisineInfo = document.getElementById('cuisine');
 let capturedImageBase64 = null;
 
 // Get camera access and display the feed
-navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-  .then(stream => {
+navigator.mediaDevices.getUserMedia({ 
+  video: { facingMode: { ideal: "environment" } }, 
+  audio: false 
+})  .then(stream => {
     video.srcObject = stream;
   })
   .catch(err => {
