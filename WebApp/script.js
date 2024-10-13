@@ -132,69 +132,158 @@ function callRecipeAPI(ingredients) {
       });
 }
 
+async function callImageGenerationAPI(description) {
+  const apiUrl = "https://api.eyecook.one/genImage";
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ description: description })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.data; // Return the image URL 
+
+  } catch (error) {
+    console.error("Error generating image:", error);
+    // Handle the error appropriately, e.g., show an error message to the user
+    return null; 
+  }
+}
+
 function displayRecipes(recipes) {
-  recipeList.innerHTML = ''; // Clear previous results
+  recipeList.innerHTML = '';
   recipeResults.style.display = 'block';
   loadingScreen.style.display = 'none';
 
-  recipes.forEach(recipe => {
-    // Create a list item container for each recipe
+  recipes.forEach((recipe, index) => { // Include index
     const listItem = document.createElement('li');
-    listItem.classList.add('recipe-item'); // Add a class for styling
+    listItem.classList.add('recipe-item');
+    listItem.id = `recipe-${index}`; // Add a unique ID to each recipe card
 
     listItem.innerHTML = `
-  <h3 class="recipe-name">${recipe.name}</h3>
-  <div class="recipe-info">
-    <div class="info-top">
-      <span class="prep-time">Prep: ${recipe.prep_time_minutes} min</span>
-      <span class="cuisine">Cuisine: ${recipe.cuisine_type}</span>
-    </div>
-    ${recipe.allergies ? `<span class="allergies">Allergies: ${recipe.allergies}</span>` : ''}
-  </div>
-`;
+      <h3 class="recipe-name">${recipe.name}</h3> 
+      <div class="recipe-info">
+        <div class="info-top">
+          <span class="prep-time">Prep: ${recipe.prep_time_minutes} min</span>
+          <span class="cuisine">Cuisine: ${recipe.cuisine_type}</span>
+        </div>
+        ${recipe.allergies ? `<span class="allergies">Allergies: ${recipe.allergies}</span>` : ''}
+      </div>
+    `;
 
-    // Add an event listener to show details when a recipe is clicked
-    listItem.addEventListener('click', () => {
-      displayRecipeDetails(recipe);
+    listItem.addEventListener('click', async () => { // Make click handler async
+      const imageContainer = listItem.querySelector('.image-container');
+
+      // Only generate and display the image if it hasn't been loaded yet
+      if (!imageContainer) { 
+        await displayRecipeDetails(recipe, listItem); // Pass listItem
+      }
     });
 
     recipeList.appendChild(listItem);
   });
 }
 
-function displayRecipeDetails(recipe) {
-  recipeName.textContent = recipe.name;
-  cookingTime.textContent = `Cooking Time: ${recipe.prep_time_minutes} minutes`;
-  allergiesInfo.textContent = ""; // Clear previous content
-  if (recipe.allergies) { 
-    allergiesInfo.textContent = `Allergies: ${recipe.allergies}`; 
+async function displayRecipeDetails(recipe, listItem) {
+  recipeDetails.innerHTML = ''; // Start fresh for each recipe
+
+  // --- Recipe Name ---
+  const recipeNameElement = document.createElement('h3');
+  recipeNameElement.textContent = recipe.name;
+  recipeDetails.appendChild(recipeNameElement);
+
+  // --- Cooking Time ---
+  const cookingTimeElement = document.createElement('p');
+  cookingTimeElement.textContent = `Cooking Time: ${recipe.prep_time_minutes} minutes`;
+  recipeDetails.appendChild(cookingTimeElement);
+
+  // --- Allergies (conditional) ---
+  if (recipe.allergies) {
+    const allergiesElement = document.createElement('p');
+    allergiesElement.textContent = `Allergies: ${recipe.allergies}`;
+    recipeDetails.appendChild(allergiesElement);
   }
-  cuisineInfo.textContent = `Cuisine: ${recipe.cuisine_type}`;
 
-  // Display ingredients
-  ingredientsList.innerHTML = '';
-  recipe.ingredients.forEach(ingredient => {
-    const ingredientItem = document.createElement('li');
-    ingredientItem.textContent = ingredient;
-    ingredientsList.appendChild(ingredientItem);
-  });
+  // --- Cuisine ---
+  const cuisineElement = document.createElement('p');
+  cuisineElement.textContent = `Cuisine: ${recipe.cuisine_type}`;
+  recipeDetails.appendChild(cuisineElement);
 
-  // Display instructions with optional timers
-  instructions.innerHTML = '';
+  // --- Instructions Header ---
+  const instructionsHeader = document.createElement('h4');
+  instructionsHeader.textContent = "Instructions:";
+  recipeDetails.appendChild(instructionsHeader);
+
+  // --- Instructions List ---
+  const instructionsList = document.createElement('ol'); 
   recipe.instruction_steps.forEach(step => {
-    const listItem = document.createElement('li');
-
-    // Check if the step has a timer
-    if (step.timer_seconds) {
-      const minutes = Math.floor(step.timer_seconds / 60);
-      const seconds = step.timer_seconds % 60;
-      listItem.textContent = `${step.step} (Timer: ${minutes}m ${seconds}s)`;
-    } else {
-      listItem.textContent = step.step; 
-    }
-
-    instructions.appendChild(listItem);
+    const instructionItem = document.createElement('li');
+    // ... (Your existing logic to handle step.step and step.timer_seconds) ...
+    instructionsList.appendChild(instructionItem);
   });
+  recipeDetails.appendChild(instructionsList); 
+// Image Display Section:
+
+   // 1. Create elements 
+   const imageContainer = document.createElement('div');
+   imageContainer.classList.add('image-container');
+ 
+   const recipeImage = document.createElement('img');
+   recipeImage.alt = recipe.name; // Set alt text for accessibility
+   recipeImage.classList.add('recipe-image');
+   recipeImage.loading = "lazy"; // Lazy load the image 
+ 
+   const loader = document.createElement('div');
+   loader.classList.add('loader');
+   loader.style.display = 'block'; // Show the loader initially
+ 
+   // 2. Build the image container
+   imageContainer.appendChild(recipeImage);
+   imageContainer.appendChild(loader);
+ 
+   // 3. Add the image container to the recipe card
+   listItem.insertBefore(imageContainer, listItem.firstChild);
+ 
+   // 4. Fetch and display the image
+   try {
+     const imageUrl = await callImageGenerationAPI(recipe.visual_description_caption);
+ 
+     if (imageUrl) { 
+       // Image URL successfully fetched:
+       recipeImage.src = imageUrl; 
+ 
+       // Image Load Event: Hide loader, show image
+       recipeImage.addEventListener('load', () => {
+         loader.style.display = 'none';
+         recipeImage.style.display = 'block';
+       });
+ 
+       // Image Error Event: Hide loader, display message
+       recipeImage.addEventListener('error', () => {
+         loader.style.display = 'none';
+         imageContainer.textContent = 'Image not available'; 
+       });
+ 
+     } else {
+       // Handle cases where API doesn't return a valid URL
+       loader.style.display = 'none';
+       imageContainer.textContent = 'Image not available'; 
+     }
+ 
+   } catch (error) {
+     // Handle any errors during the API call
+     console.error("Error generating/loading image:", error);
+     loader.style.display = 'none'; 
+     imageContainer.textContent = 'Image not available'; 
+   }
 
   recipeDetails.style.display = 'block';
   recipeResults.style.display = 'none';

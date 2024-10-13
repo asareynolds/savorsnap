@@ -162,6 +162,29 @@ header {
     position: relative; /* Required for absolute positioning of .recipe-info */
   }
 
+  .image-container {
+    width: 100%;
+    height: 150px; /* Set a fixed height for the image container */
+    position: relative; /* To position the loader */
+    overflow: hidden; /* Hide image overflow if any */
+    margin-bottom: 10px; /* Space between image and title */
+  }
+  
+  .recipe-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Maintain aspect ratio while covering the container */
+    display: none;       /* Initially hide the image until loaded */
+  }
+  
+  .recipe-image,
+  .loader { /* Center the image and loader */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
 #recipeList li {
     margin-bottom: 10px;
     cursor: pointer;
@@ -179,6 +202,13 @@ line-height: 1.6; /* Improve readability with line spacing */
 color: #f48b29;
 margin-bottom: 10px;
 }
+
+#recipeDetails .image-container { 
+    /* Use #recipeDetails to scope the styles to this section */
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    /* ... (Other image container styles) ... */
+  }
 
 #cookingTime, 
 #allergies { /* Style the cooking time and allergies info */
@@ -255,6 +285,7 @@ background-color: #e67a23; /* Darken the button slightly on hover */
     border-radius: 50%;
     width: 50px;
     height: 50px;
+    margin-bottom: 10px;
     animation: spin 2s linear infinite;
 }
 
