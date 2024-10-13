@@ -8,6 +8,7 @@ const recipeImage = document.getElementById('recipeImage');
 const cookingTime = document.getElementById('cookingTime');
 const instructions = document.getElementById('instructions');
 const backButton = document.getElementById('backButton');
+const loadingScreen = document.getElementById('loadingScreen');
 let capturedImageBase64 = null;
 
 async function takePicture() {
@@ -35,9 +36,13 @@ async function takePicture() {
 }
 
 snapButton.addEventListener('click', async () => {
+  loadingScreen.style.display = 'flex'; // Show loading screen
+
   const base64Image = await takePicture();
   if (base64Image) {
     callImageUploadAPI(base64Image);
+  } else {
+    loadingScreen.style.display = 'none';
   }
 });
 
@@ -58,8 +63,7 @@ function callImageUploadAPI(base64Image) {
         return response.json();
       })
       .then(data => {
-        // Correctly access the ingredients array from the response data:
-        const ingredients = data.data.ingredients; // Access ingredients from data.data
+        const ingredients = data.data.ingredients;
 
         console.log("Ingredients received from /imageUpload:", ingredients);
         callRecipeAPI(ingredients);
@@ -79,7 +83,6 @@ function callRecipeAPI(ingredients) {
     headers: {
       'Content-Type': 'application/json'
     },
-    // Corrected format for ingredients:
     body: JSON.stringify({ ingredients })
   })
       .then(response => {
@@ -104,6 +107,7 @@ function callRecipeAPI(ingredients) {
 function displayRecipes(recipes) {
   recipeList.innerHTML = '';
   recipeResults.style.display = 'block';
+  loadingScreen.style.display = 'none'; // Hide loading screen
 
   recipes.forEach(recipe => {
     const listItem = document.createElement('li');
@@ -117,7 +121,14 @@ function displayRecipes(recipes) {
 
 function displayRecipeDetails(recipe) {
   recipeName.textContent = recipe.name;
-  recipeImage.src = recipe.imageUrl;
+
+  // Create and append image element:
+  const imgElement = document.createElement('img');
+  imgElement.src = recipe.imageUrl;
+  imgElement.alt = recipe.name;
+  recipeImage.innerHTML = '';
+  recipeImage.appendChild(imgElement);
+
   cookingTime.textContent = `Cooking Time: ${recipe.prep_time_minutes} minutes`;
 
   instructions.innerHTML = '';
