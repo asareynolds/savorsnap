@@ -26,9 +26,21 @@
   ScriptInputsHidden:
     initiateButton: false
     initiateContainer: false
+    instruction: false
+    nextButton: false
+    prevButton: false
     recipe: false
+    recipeImage: false
+    recipeImageMat: false
+    recipeIngedients: false
+    recipeTime: false
+    recipeTitle: false
+    remoteMediaModule: false
     remoteServiceModule: false
     statusText: false
+    stepNum: false
+    stepsCont: false
+    stepsStartButton: false
   ScriptTypesHidden:
     {}
   DefaultScriptInputs:
@@ -37,12 +49,36 @@
       initiateButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
       initiateContainer: !<MappingBased.ContainerFrame> 00000000-0000-0000-0000-000000000000
       recipe: !<MappingBased.ContainerFrame> 00000000-0000-0000-0000-000000000000
+      remoteMediaModule: !<reference.RemoteMediaModule> 00000000-0000-0000-0000-000000000000
+      recipeTitle: !<reference.Text> 00000000-0000-0000-0000-000000000000
+      recipeIngedients: !<reference.Text> 00000000-0000-0000-0000-000000000000
+      recipeImage: !<reference.Image> 00000000-0000-0000-0000-000000000000
+      recipeTime: !<reference.Text> 00000000-0000-0000-0000-000000000000
+      recipeImageMat: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      stepsCont: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
+      stepsStartButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
+      stepNum: !<reference.Text> 00000000-0000-0000-0000-000000000000
+      instruction: !<reference.Text> 00000000-0000-0000-0000-000000000000
+      prevButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
+      nextButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
   ScriptTypes:
     -
       {}
   InputLines:
     - // @input Asset.RemoteServiceModule remoteServiceModule
+    - // @input Asset.RemoteMediaModule remoteMediaModule
     - // @input Component.Text statusText
     - // @input PinchButton initiateButton
-    - // @input ContainerFrame initiateContainer
-    - // @input ContainerFrame recipe
+    - // @input SceneObject initiateContainer
+    - // @input SceneObject recipe
+    - // @input SceneObject stepsCont
+    - // @input Component.Text recipeTitle
+    - // @input Component.Text recipeIngedients
+    - // @input Component.Text recipeTime
+    - // @input Component.Image recipeImage
+    - // @input Asset.Material recipeImageMat
+    - // @input PinchButton stepsStartButton
+    - // @input Component.Text stepNum
+    - // @input Component.Text instruction
+    - // @input PinchButton prevButton
+    - // @input PinchButton nextButton
