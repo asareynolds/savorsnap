@@ -74,7 +74,7 @@ snapButton.addEventListener('click', async () => {
 });
 
 function callImageUploadAPI(base64Image) {
-  const apiUrl = "https://api.savorsnap.one/imageUpload";
+  const apiUrl = "https://eyecookapi.tgm.one/imageUpload";
 
   fetch(apiUrl, {
     method: "POST",
@@ -101,7 +101,7 @@ function callImageUploadAPI(base64Image) {
 }
 
 function callRecipeAPI(ingredients) {
-  const apiUrl = "https://api.savorsnap.one/genRecipe";
+  const apiUrl = "https://eyecookapi.tgm.one/genRecipe";
 
   console.log("Ingredients being sent:", ingredients);
   fetch(apiUrl, {
@@ -109,7 +109,7 @@ function callRecipeAPI(ingredients) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ ingredients })
+    body: JSON.stringify({ ingredients: ingredients })
   })
       .then(response => {
         if (!response.ok) {
