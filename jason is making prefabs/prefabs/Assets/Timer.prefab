@@ -174,6 +174,23 @@
   ScriptTypes:
     "":
       {}
+- !<Image/41772a54-2feb-4dab-98d3-f454885a595b>
+  PrefabRemaps:
+    []
+  Name: Image
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Fit
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 8d7d85a7-bb56-4162-aaeb-24729ca5471c
+  FlipX: false
+  FlipY: false
+  Pivot: {x: 0.000000, y: 0.000000}
 - !<ScriptComponent/456cee08-c6a6-450e-a7f3-91ef3ac3ad48>
   PrefabRemaps:
     []
@@ -181,7 +198,6 @@
   Enabled: true
   ScriptAsset: !<reference> ad94751b-0846-4ee3-af41-7b0eb49b2e2c
   ScriptInputsDefault:
-    defaultColor: true
     hoverColor: true
     pinchedColor: true
     disabledColor: true
@@ -189,7 +205,7 @@
     {}
   ScriptInputs:
     "":
-      defaultColor: !<Vec4> {x: 0.280000, y: 0.280000, z: 0.280000, w: 1.000000}
+      defaultColor: !<Vec4> {x: 0.278431, y: 0.270588, z: 0.011765, w: 1.000000}
       hoverColor: !<Vec4> {x: 0.280000, y: 0.280000, z: 0.280000, w: 1.000000}
       pinchedColor: !<Vec4> {x: 0.460000, y: 0.460000, z: 0.460000, w: 1.000000}
       disabledColor: !<Vec4> {x: 1.000000, y: 1.000000, z: 1.000000, w: 0.000000}
@@ -246,6 +262,27 @@
   ScriptInputs:
     "":
       {}
+  ScriptTypes:
+    "":
+      {}
+- !<ScriptComponent/54380454-4927-4c5d-9b29-092197298632>
+  PrefabRemaps:
+    []
+  Name: TimerScript
+  Enabled: true
+  ScriptAsset: !<reference> e6efd765-e12a-4133-b0a5-08f8b235ea1a
+  ScriptInputsDefault:
+    parentObject: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      toggleButton: !<MappingBased.PinchButton> 78f8f0e6-63e4-4169-99c2-24b96f52d0d9
+      deleteButton: !<MappingBased.PinchButton> f388fc52-b333-444b-9e6a-dfb9200c4fb9
+      timerText: !<reference.Text> 042176a1-f24b-48ad-a5b3-863e10e5f83d
+      playImage: !<reference.Image> 3e04afe1-abf2-4e21-9b99-1bdd34a66b83
+      stopImage: !<reference.Image> 41772a54-2feb-4dab-98d3-f454885a595b
+      parentObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
   ScriptTypes:
     "":
       {}
@@ -407,7 +444,7 @@
 - !<SceneObject/79f0f251-ff43-489b-b8bd-9aa6ff59170e>
   PrefabRemaps:
     []
-  Name: Start
+  Name: StartStop
   Enabled: true
   Layers: 1
   LocalTransform:
@@ -419,6 +456,7 @@
     []
   Components:
     - !<own> 3e04afe1-abf2-4e21-9b99-1bdd34a66b83
+    - !<own> 41772a54-2feb-4dab-98d3-f454885a595b
 - !<ScriptComponent/7a6f70ef-fc30-4c96-8a54-cdc7a4b2bbb2>
   PrefabRemaps:
     []
@@ -460,7 +498,7 @@
 - !<SceneObject/7ccbc562-f197-499c-a71b-98e94722d9dc>
   PrefabRemaps:
     []
-  Name: Stop
+  Name: DeleteButton
   Enabled: true
   Layers: 1
   LocalTransform:
@@ -484,7 +522,7 @@
 - !<SceneObject/88e59a79-7f74-4ae9-bbd1-0b8974627e5a>
   PrefabRemaps:
     []
-  Name: Pause/Play
+  Name: ToggleButton
   Enabled: true
   Layers: 1
   LocalTransform:
@@ -541,6 +579,7 @@
     hasSegmentScaleCompensation: false
   Children:
     - !<own> cb259857-24b9-4780-973d-09107a4423d7
+    - !<own> c235dd40-5952-42fa-9240-51c672163e9b
   Components:
     - !<own> a0574f25-754d-446a-b6ba-1cbb60b394f0
 - !<SceneObject/8bbdca98-747e-4eab-8038-55704e9e2cde>
@@ -660,7 +699,7 @@
 - !<SceneObject/aaa18077-230a-445a-b3fc-14cdb3bdbf04>
   PrefabRemaps:
     []
-  Name: Time Placeholder
+  Name: TimerText
   Enabled: true
   Layers: 1
   LocalTransform:
@@ -688,6 +727,23 @@
   Components:
     - !<own> 4c3ddae5-43e9-418b-964d-f2c881b90b7e
     - !<own> d3d81657-6866-4db6-a8e0-a8d9771360b0
+- !<SceneObject/c235dd40-5952-42fa-9240-51c672163e9b>
+  PrefabRemaps:
+    []
+  Name: TimerScript
+  Enabled: true
+  Layers: 1
+  LocalTransform:
+    position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    hasSegmentScaleCompensation: false
+  Children:
+    - !<own> aaa18077-230a-445a-b3fc-14cdb3bdbf04
+    - !<own> 88e59a79-7f74-4ae9-bbd1-0b8974627e5a
+    - !<own> 7ccbc562-f197-499c-a71b-98e94722d9dc
+  Components:
+    - !<own> 54380454-4927-4c5d-9b29-092197298632
 - !<SceneObject/cb259857-24b9-4780-973d-09107a4423d7>
   PrefabRemaps:
     []
@@ -701,10 +757,7 @@
     hasSegmentScaleCompensation: false
   Children:
     - !<own> 51dc2f4c-1c14-4941-a542-cac61a75c91c
-    - !<own> aaa18077-230a-445a-b3fc-14cdb3bdbf04
     - !<own> 8bbdca98-747e-4eab-8038-55704e9e2cde
-    - !<own> 88e59a79-7f74-4ae9-bbd1-0b8974627e5a
-    - !<own> 7ccbc562-f197-499c-a71b-98e94722d9dc
   Components:
     []
 - !<ScreenTransform/d3d81657-6866-4db6-a8e0-a8d9771360b0>

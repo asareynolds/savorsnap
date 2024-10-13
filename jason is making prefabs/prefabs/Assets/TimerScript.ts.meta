@@ -25,6 +25,7 @@
   MaxVisibility: Editable
   ScriptInputsHidden:
     deleteButton: false
+    parentObject: false
     playImage: false
     stopImage: false
     timerText: false
@@ -37,6 +38,7 @@
       timerText: !<reference.Text> 00000000-0000-0000-0000-000000000000
       playImage: !<reference.Image> 00000000-0000-0000-0000-000000000000
       stopImage: !<reference.Image> 00000000-0000-0000-0000-000000000000
+      parentObject: !<reference.SceneObject> 00000000-0000-0000-0000-000000000000
   ScriptTypes:
     -
       {}
@@ -46,3 +48,4 @@
     - // @input Component.Text timerText
     - // @input Component.Image playImage
     - // @input Component.Image stopImage
+    - // @input SceneObject parentObject
