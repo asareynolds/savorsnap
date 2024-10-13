@@ -1,71 +1,119 @@
-const imageUpload = document.getElementById('imageUpload');
 const snapButton = document.getElementById('snapButton');
 const recipeResults = document.getElementById('recipeResults');
 const recipeList = document.getElementById('recipeList');
 const recipeDetails = document.getElementById('recipeDetails');
 const recipeName = document.getElementById('recipeName');
-const recipeImage = document.getElementById('recipeImage');
 const cookingTime = document.getElementById('cookingTime');
 const instructions = document.getElementById('instructions');
 const backButton = document.getElementById('backButton');
+const loadingScreen = document.getElementById('loadingScreen');
+const ingredientsList = document.getElementById('ingredientsList');
+const allergiesInfo = document.getElementById('allergies');
+let capturedImageBase64 = null;
 
-// Example Recipe Data (replace with API data later)
-const recipes = [
-  { 
-    name: "Spaghetti Carbonara", 
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Espaguetis_carbonara.jpg/800px-Espaguetis_carbonara.jpg",
-    cookingTime: "30 minutes",
-    instructions: [
-      "Cook spaghetti according to package directions.",
-      "Fry pancetta until crispy.",
-      "Whisk eggs, cheese, and pepper.",
-      "Toss spaghetti with pancetta and egg mixture."
-    ]
-  },
-  { 
-    name: "Chicken Tikka Masala", 
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Chicken_Tikka_Masala_%28cropped%29.jpg/800px-Chicken_Tikka_Masala_%28cropped%29.jpg",
-    cookingTime: "45 minutes",
-    instructions: [
-      "Marinate chicken in yogurt and spices.",
-      "Grill or bake chicken until cooked through.",
-      "Prepare tikka masala sauce.",
-      "Combine chicken and sauce, simmer for a few minutes.",
-      "Serve with rice or naan."
-    ]
-  },
-  { 
-    name: "Vegan Chili", 
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Vegan_Chili.jpg/800px-Vegan_Chili.jpg",
-    cookingTime: "1 hour",
-    instructions: [
-      "Sauté onions, garlic, and peppers.",
-      "Add beans, tomatoes, and spices.",
-      "Simmer for at least 30 minutes.",
-      "Serve with toppings like avocado, cilantro, and vegan sour cream."
-    ]
-  },
-  // ... Add 17 more recipes here ... 
-];
+async function takePicture() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const video = document.createElement('video');
+    document.body.appendChild(video);
+    video.srcObject = stream;
+    await video.play();
 
-snapButton.addEventListener('click', () => {
-  // 1. Image Recognition (placeholder - replace with real image recognition)
-  // Note:  For Spectacles, you'll use the Spectacles APIs for image recognition.
-  //        This placeholder simulates the recognition result.
-  const recognizedFood = "Spaghetti"; // Example - replace with actual recognition result
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    capturedImageBase64 = canvas.toDataURL('image/jpeg').split(',')[1];
 
-  // 2. Filter and Display Recipes 
-  const matchedRecipes = recipes.filter(recipe => recipe.name.includes(recognizedFood)); 
-  displayRecipes(matchedRecipes);
+    document.body.removeChild(video);
+    stream.getTracks().forEach(track => track.stop());
+
+    return capturedImageBase64;
+  } catch (error) {
+    console.error("Error accessing camera:", error);
+    alert("Unable to access camera. Please check your browser permissions.");
+  }
+}
+
+snapButton.addEventListener('click', async () => {
+  loadingScreen.style.display = 'flex';
+
+  const base64Image = await takePicture();
+  if (base64Image) {
+    callImageUploadAPI(base64Image);
+  } else {
+    loadingScreen.style.display = 'none';
+  }
 });
 
+function callImageUploadAPI(base64Image) {
+  const apiUrl = "https://api.savorsnap.one/imageUpload";
+
+  fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ image: base64Image })
+  })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const ingredients = data.data.ingredients;
+        console.log("Ingredients received from /imageUpload:", ingredients);
+        callRecipeAPI(ingredients);
+      })
+      .catch(error => {
+        console.error("Error uploading image or processing response:", error);
+        alert("An error occurred. Please try again later.");
+      });
+}
+
+function callRecipeAPI(ingredients) {
+  const apiUrl = "https://api.savorsnap.one/genRecipe";
+
+  console.log("Ingredients being sent:", ingredients);
+  fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ ingredients })
+  })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.result === "success" && data.data.recipes.length > 0) {
+          displayRecipes(data.data.recipes);
+        } else {
+          alert("No recipes found for those ingredients.");
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching recipes:", error);
+        alert("An error occurred. Please try again later.");
+      });
+}
+
 function displayRecipes(recipes) {
-  recipeList.innerHTML = ''; // Clear previous results
-  recipeResults.style.display = 'block'; 
+  recipeList.innerHTML = '';
+  recipeResults.style.display = 'block';
+  loadingScreen.style.display = 'none';
 
   recipes.forEach(recipe => {
     const listItem = document.createElement('li');
-    listItem.textContent = recipe.name;
+    listItem.innerHTML = `
+      <span>${recipe.name}</span>
+      <span class="prep-time">${recipe.prep_time_minutes} min</span> 
+    `;
     listItem.addEventListener('click', () => {
       displayRecipeDetails(recipe);
     });
@@ -75,22 +123,28 @@ function displayRecipes(recipes) {
 
 function displayRecipeDetails(recipe) {
   recipeName.textContent = recipe.name;
-  recipeImage.src = recipe.imageUrl;
-  cookingTime.textContent = `Cooking Time: ${recipe.cookingTime}`;
+  cookingTime.textContent = `Cooking Time: ${recipe.prep_time_minutes} minutes`;
+  allergiesInfo.textContent = `Allergies: ${recipe.allergies}`;
+
+  ingredientsList.innerHTML = '';
+  recipe.ingredients.forEach(ingredient => {
+    const ingredientItem = document.createElement('li');
+    ingredientItem.textContent = ingredient;
+    ingredientsList.appendChild(ingredientItem);
+  });
 
   instructions.innerHTML = '';
-  recipe.instructions.forEach(step => {
+  recipe.instruction_steps.forEach(step => {
     const listItem = document.createElement('li');
     listItem.textContent = step;
     instructions.appendChild(listItem);
   });
 
-  recipeDetails.style.display = 'block'; 
-  recipeResults.style.display = 'none'; // Hide the recipe list 
+  recipeDetails.style.display = 'block';
+  recipeResults.style.display = 'none';
 }
 
-// Back button functionality
 backButton.addEventListener('click', () => {
   recipeDetails.style.display = 'none';
   recipeResults.style.display = 'block';
-});
+}); 
