@@ -1,3 +1,4 @@
+      
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +13,11 @@
   <header>
     <h1 class="logo">EyeCook</h1>
     <button id="snapButton">
-        <span class="spectacles-icon">
-          <div class="lens left-lens"></div>
-          <div class="lens right-lens"></div>
-          <div class="bridge"></div>
-        </span>
+      <span class="spectacles-icon">
+        <div class="lens left-lens"></div>
+        <div class="lens right-lens"></div>
+        <div class="bridge"></div>
+      </span>
       Snap!
     </button>
   </header>
@@ -27,13 +28,17 @@
       <p>Analyzing your image...</p>
     </div>
 
-    <div id="recipeResults">
+    <div id="cameraView">
+      <video id="video" autoplay></video> 
+    </div>
+
+    <div id="recipeResults" style="display: none;"> 
       <h2>Recipes</h2>
       <ul id="recipeList">
       </ul>
     </div>
 
-    <div id="recipeDetails">
+    <div id="recipeDetails" style="display: none;">
       <button id="backButton">← Back</button>
       <h3 id="recipeName"></h3>
       <p id="cookingTime"></p>
@@ -49,3 +54,5 @@
 <script src="script.js"></script>
 </body>
 </html>
+
+    
