@@ -21,7 +21,7 @@ export class GetRecipes extends BaseScriptComponent {
     async checkForRecipes() {
         let httpRequest = RemoteServiceHttpRequest.create();
         httpRequest.method = RemoteServiceHttpRequest.HttpRequestMethod.Get;
-        httpRequest.url = "https://api.eyecook.one/spectaclesSync";
+        httpRequest.url = "https://eyecookapi.tgm.one/spectaclesSync";
         httpRequest.setHeader("accept", "application/json");
 
         await this.remoteServiceModule.performHttpRequest(httpRequest, (response) => {
