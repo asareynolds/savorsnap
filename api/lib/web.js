@@ -73,6 +73,7 @@ app.post('/genRecipe', async(req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
     try {
+        console.log(req.body)
         const { ingredients } = req.body;
         if (!ingredients) {
             throw new Error('No ingredients provided');
@@ -100,6 +101,19 @@ app.post('/genRecipe', async(req, res) => {
     }
 });
 
+app.get('/spectaclesSync', async(req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+
+    console.log("Received request from:", req.ip);
+
+    const filePath = path.join(__dirname, '..', 'sampleRecResponse', 'fridge_1.json');
+    const data = fs.readFileSync(filePath, 'utf8');
+    const output = JSON.parse(data);
+
+    // Send only the first recipe
+    const firstRecipe = output.data.recipes[0];
+    res.json(firstRecipe);
+});
 app.get('/', async(req, res) => {
     res.setHeader('Content-Type', 'application/json');
 
