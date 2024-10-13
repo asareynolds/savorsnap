@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RecipeSnap</title>
+  <title>EyeCook</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container">
   <header>
-    <h1 class="logo">RecipeSnap</h1>
-    <input type="file" id="imageUpload" accept="image/*">
+    <h1 class="logo">EyeCook</h1>
     <button id="snapButton">
         <span class="spectacles-icon">
           <div class="lens left-lens"></div>
@@ -23,7 +22,8 @@
   </header>
 
   <main>
-    <div id="loadingScreen" style="display: none;"> <div class="loader"></div>
+    <div id="loadingScreen" style="display: none;">
+      <div class="loader"></div>
       <p>Analyzing your image...</p>
     </div>
 
@@ -34,8 +34,12 @@
     </div>
 
     <div id="recipeDetails">
-      <button id="backButton">← Back</button> <h3 id="recipeName"></h3>
-      <div id="recipeImage"></div> <p id="cookingTime"></p>
+      <button id="backButton">← Back</button>
+      <h3 id="recipeName"></h3>
+      <p id="cookingTime"></p>
+      <p id="allergies"></p>
+      <p>Ingredients:</p>
+      <ul id="ingredientsList"></ul>
       <ol id="instructions">
       </ol>
     </div>
