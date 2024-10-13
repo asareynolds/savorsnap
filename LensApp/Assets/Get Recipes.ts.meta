@@ -24,16 +24,25 @@
   CurrentVisibility: Editable
   MaxVisibility: Editable
   ScriptInputsHidden:
-    myText: false
+    initiateButton: false
+    initiateContainer: false
+    recipe: false
     remoteServiceModule: false
+    statusText: false
   ScriptTypesHidden:
     {}
   DefaultScriptInputs:
     - remoteServiceModule: !<reference.RemoteServiceModule> 00000000-0000-0000-0000-000000000000
-      myText: !<reference.Text> 00000000-0000-0000-0000-000000000000
+      statusText: !<reference.Text> 00000000-0000-0000-0000-000000000000
+      initiateButton: !<MappingBased.PinchButton> 00000000-0000-0000-0000-000000000000
+      initiateContainer: !<MappingBased.ContainerFrame> 00000000-0000-0000-0000-000000000000
+      recipe: !<MappingBased.ContainerFrame> 00000000-0000-0000-0000-000000000000
   ScriptTypes:
     -
       {}
   InputLines:
     - // @input Asset.RemoteServiceModule remoteServiceModule
-    - // @input Component.Text myText
+    - // @input Component.Text statusText
+    - // @input PinchButton initiateButton
+    - // @input ContainerFrame initiateContainer
+    - // @input ContainerFrame recipe

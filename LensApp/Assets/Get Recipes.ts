@@ -1,18 +1,23 @@
+import { ContainerFrame } from "SpectaclesInteractionKit/Components/UI/ContainerFrame/ContainerFrame";
+import { PinchButton } from "SpectaclesInteractionKit/Components/UI/PinchButton/PinchButton";
+
 @component
 export class GetRecipes extends BaseScriptComponent {
-  @input remoteServiceModule: RemoteServiceModule;
-  @input
-  myText: Text
+    @input remoteServiceModule: RemoteServiceModule;
+    @input statusText: Text;
+    @input initiateButton: PinchButton;
+
+    @input initiateContainer: ContainerFrame;
+    @input recipe: ContainerFrame;
 
     onAwake() {
-        this.sudoWebSocket();
+        this.createEvent('OnStartEvent').bind(() => {
+          this.initiateButtonEvent();
+        });
+        this.initiateContainer.enabled = true;
+        //this.recipe. = false;
     }
-    async sudoWebSocket() {
-        await this.checkForRecipes();
-
-        //// Wait 1 second before sending the next request
-        //await this.wait(1000);
-    }
+    
     async checkForRecipes() {
         let httpRequest = RemoteServiceHttpRequest.create();
         httpRequest.method = RemoteServiceHttpRequest.HttpRequestMethod.Get;
@@ -20,19 +25,28 @@ export class GetRecipes extends BaseScriptComponent {
         httpRequest.setHeader("accept", "application/json");
 
         await this.remoteServiceModule.performHttpRequest(httpRequest, (response) => {
-        if (response.statusCode == 200) {
-            print("Success! Body: " + response.body);
-            this.myText.text = response.body;
-        } else {
-            print(
-            "Error code:" + response.statusCode + "\n Body: " + response.body
-            );
-        }
+            if (response.statusCode == 200) {
+                print("Success! Body: " + response.body);
+                return response.body;
+            } else {
+                print(
+                    "Error code:" + response.statusCode + "\n Body: " + response.body
+                );
+            }
         });
     }
 
-    // Custom wait function
-    //wait(ms: number): Promise<void> {
-    //    return new Promise(resolve => setTimeout(resolve, ms));
-    //}  
+    async initiateButtonEvent() {
+        let onButtonPinchedCallback = async () =>{        
+            this.statusText.text = "Loading latest recipe...";
+            const recipe = await this.checkForRecipes();
+            print(recipe);
+        };
+    
+        this.initiateButton.onButtonPinched.add(onButtonPinchedCallback);
+    } 
+
+    buildRecipe(recipe) {
+
+    }
 } 
