@@ -114,17 +114,102 @@ header {
 #recipeList {
     list-style: none;
     padding: 0;
+    display: grid; /* Use grid for better layout */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Spacing between recipes */
+  }
+  
+  /* .recipe-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Add smooth transitions */
+  } */
+  
+  .recipe-item:hover {
+    transform: translateY(-5px); /* Move up slightly on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add a subtle shadow on hover */
+  }
+  
+  .recipe-name {
+    color: #f48b29; 
+    margin-bottom: 2em;
+  }
+  
+  .recipe-info {
+    display: flex;
+    justify-content: space-between; 
+    font-size: 0.9em;
+    color: #555;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;    /* Center horizontally */
+}
+.info-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%; /* Make sure prep-time and cuisine take full width */
+    margin-bottom: 10px; /* Add space below the top row */
+  }
+
+  .recipe-item { /* Apply padding to accommodate .recipe-info */
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative; /* Required for absolute positioning of .recipe-info */
+  }
+
+#recipeList li {
+    margin-bottom: 10px;
+    cursor: pointer;
 }
 
-    #recipeList li {
-        margin-bottom: 10px;
-        cursor: pointer;
-    }
-
 #recipeDetails {
-    margin-top: 20px;
-    display: none;
-    text-align: center;
+margin-top: 20px;
+display: none;
+text-align: left; /* Align text to left for better readability */
+font-size: 1em;
+line-height: 1.6; /* Improve readability with line spacing */
+}
+
+#recipeDetails h3 { /* Style the recipe name */
+color: #f48b29;
+margin-bottom: 10px;
+}
+
+#cookingTime, 
+#allergies { /* Style the cooking time and allergies info */
+margin-bottom: 15px;
+}
+
+#ingredientsList, 
+#instructions { /* Style the ingredients and instructions lists */
+margin-bottom: 20px; 
+padding-left: 20px; /* Indent the lists for better visual hierarchy */
+}
+
+#ingredientsList li,
+#instructions li {
+margin-bottom: 8px; 
+}
+
+#backButton { 
+background: #f48b29; 
+color: white;
+border: none;
+padding: 10px 20px;
+font-size: 1em;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s ease; /* Add a transition effect */
+text-decoration: none; /* Remove underline from the link */
+}
+
+#backButton:hover {
+background-color: #e67a23; /* Darken the button slightly on hover */
 }
 
 #recipeImage {
@@ -133,14 +218,14 @@ header {
     max-height: 200px;
 }
 
-#backButton {
+/* #backButton {
     background: none;
     border: none;
     font-size: 1.2em;
     cursor: pointer;
     margin-bottom: 10px;
     padding: 0;
-}
+} */
 
 #video {
   width: 100%;
