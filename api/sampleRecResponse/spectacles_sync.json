@@ -1,0 +1,25 @@
+{
+    "data": {
+        "recipe": [{
+            "allergies": "dairy",
+            "cuisine_type": "American",
+            "ingredients": ["1 lb steak", "4 slices bacon", "1 cup broccoli", "1 cup cheese"],
+            "instruction_steps": [{
+                "step": "Cook bacon until crispy.",
+                "timer_seconds": 600
+            }, {
+                "step": "Season steak with salt and pepper."
+            }, {
+                "step": "Sear steak in bacon grease for 3-4 minutes per side."
+            }, {
+                "step": "Steam broccoli until tender.",
+                "timer_seconds": 480
+            }, {
+                "step": "Top steak with cheese and serve with broccoli."
+            }],
+            "name": "Steak and Broccoli with Cheese",
+            "prep_time_minutes": 20,
+            "visual_description_caption": "Juicy steak topped with melted cheese served alongside steamed broccoli."
+        }]
+    }
+}

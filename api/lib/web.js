@@ -134,13 +134,11 @@ app.get('/spectaclesSync', async(req, res) => {
 
     console.log("Received request from:", req.ip);
 
-    const filePath = path.join(__dirname, '..', 'sampleRecResponse', 'fridge_1.json');
+    const filePath = path.join(__dirname, '..', 'sampleRecResponse', 'spectacles_sync.json');
     const data = fs.readFileSync(filePath, 'utf8');
     const output = JSON.parse(data);
 
-    // Send only the first recipe
-    const firstRecipe = output.data.recipes[0];
-    res.json(firstRecipe);
+    res.json(output);
 });
 app.get('/', async(req, res) => {
     res.setHeader('Content-Type', 'application/json');

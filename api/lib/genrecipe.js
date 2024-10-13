@@ -5,7 +5,7 @@ const { gemini_api_key } = require('../config.json');
 const genAI = new GoogleGenerativeAI(gemini_api_key);
 
 const recipesSchema = {
-    description: "Following the specified JSON format, create 10 different recipes that use some or all of the provided ingredients.  For each recipe, list the necessary ingredients, list any allergy considerations (briefly, listing single allergic items like 'gluten' or 'dairy'). List the cuisine type as well, and estimate a prep time. List a visual description to caption an image of the food. Finally, list all of the detailed instructions necessary to make the item, broken down by step. Each step in the array must have a string of instructions. Optionally, if the step requires a timer add a time_minutes integer to the step. The steps should be detailed, 6-10 steps is normal. When listing ingredients, always list exact measurements.",
+    description: "Following the specified JSON format, create 10 different recipes that use some or all of the provided ingredients. For each recipe, list the necessary ingredients, list any allergy considerations from the following list (Milk, Eggs, Fish, Shellfish, Tree nuts, Peanuts, Wheat, Soybeans, Sesame). List a visual description to caption an image of the food. Finally, list all of the detailed instructions necessary to make the item, broken down by step. Each step in the array must have a string of instructions. Optionally, if the step requires a timer add a time_minutes integer to the step. The steps should be detailed, 6-10 steps is normal. When listing ingredients, always list exact measurements.",
     type: "object",
     properties: {
         recipes: {
@@ -76,7 +76,7 @@ const recipeModel = genAI.getGenerativeModel({
 const getRecipies = async (ingredients) => {
     try {
         const result = await recipeModel.generateContent([
-            `Following the specified JSON format, create 10 different recipes that use some or all of the provided ingredients.  For each recipe, list the necessary ingredients, list any allergy considerations (briefly, listing single allergic items like 'gluten' or 'dairy'). List the cuisine type as well, and estimate a prep time. List a visual description to caption an image of the food. Finally, list all of the detailed instructions necessary to make the item, broken down by step. Each step in the array must have a string of instructions. Optionally, if the step requires a timer add a time_minutes integer to the step. The steps should be detailed, 6-10 steps is normal. When listing ingredients, always list exact measurements. Ingredients are: ${ingredients.join(", ")}`,
+            `Following the specified JSON format, create 10 different recipes that use some or all of the provided ingredients. For each recipe, list the necessary ingredients, list any allergy considerations from the following list (Milk, Eggs, Fish, Shellfish, Tree nuts, Peanuts, Wheat, Soybeans, Sesame). List the cuisine type as well, and estimate a prep time. List a visual description to caption an image of the food. Finally, list all of the detailed instructions necessary to make the item, broken down by step. Each step in the array must have a string of instructions. Optionally, if the step requires a timer add a time_minutes integer to the step. The steps should be detailed, 6-10 steps is normal. When listing ingredients, always list exact measurements. Ingredients are: ${ingredients.join(", ")}`,
         ]);
         return result.response.text();
     } catch (error) {
