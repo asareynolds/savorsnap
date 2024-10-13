@@ -1,4 +1,5 @@
 const snapButton = document.getElementById('snapButton');
+const video = document.getElementById('video');
 const recipeResults = document.getElementById('recipeResults');
 const recipeList = document.getElementById('recipeList');
 const recipeDetails = document.getElementById('recipeDetails');
@@ -11,29 +12,55 @@ const ingredientsList = document.getElementById('ingredientsList');
 const allergiesInfo = document.getElementById('allergies');
 let capturedImageBase64 = null;
 
+// Get camera access and display the feed
+navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+  .then(stream => {
+    video.srcObject = stream;
+  })
+  .catch(err => {
+    console.error("Error accessing camera:", err);
+    alert("Unable to access camera. Please check your browser permissions.");
+  });
+
 async function takePicture() {
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    const video = document.createElement('video');
-    document.body.appendChild(video);
-    video.srcObject = stream;
-    await video.play();
-
     const canvas = document.createElement('canvas');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext('2d').drawImage(video, 0, 0);
     capturedImageBase64 = canvas.toDataURL('image/jpeg').split(',')[1];
 
-    document.body.removeChild(video);
-    stream.getTracks().forEach(track => track.stop());
-
     return capturedImageBase64;
   } catch (error) {
-    console.error("Error accessing camera:", error);
-    alert("Unable to access camera. Please check your browser permissions.");
+    console.error("Error taking picture:", error);
+    alert("Unable to capture image.");
   }
 }
+
+
+// async function takePicture() {
+//   try {
+//     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+//     const video = document.createElement('video');
+//     document.body.appendChild(video);
+//     video.srcObject = stream;
+//     await video.play();
+
+//     const canvas = document.createElement('canvas');
+//     canvas.width = video.videoWidth;
+//     canvas.height = video.videoHeight;
+//     canvas.getContext('2d').drawImage(video, 0, 0);
+//     capturedImageBase64 = canvas.toDataURL('image/jpeg').split(',')[1];
+
+//     document.body.removeChild(video);
+//     stream.getTracks().forEach(track => track.stop());
+
+//     return capturedImageBase64;
+//   } catch (error) {
+//     console.error("Error accessing camera:", error);
+//     alert("Unable to access camera. Please check your browser permissions.");
+//   }
+// }
 
 snapButton.addEventListener('click', async () => {
   loadingScreen.style.display = 'flex';
@@ -47,7 +74,7 @@ snapButton.addEventListener('click', async () => {
 });
 
 function callImageUploadAPI(base64Image) {
-  const apiUrl = "https://api.savorsnap.one/imageUpload";
+  const apiUrl = "https://eyecookapi.tgm.one/imageUpload";
 
   fetch(apiUrl, {
     method: "POST",
@@ -74,7 +101,7 @@ function callImageUploadAPI(base64Image) {
 }
 
 function callRecipeAPI(ingredients) {
-  const apiUrl = "https://api.savorsnap.one/genRecipe";
+  const apiUrl = "https://eyecookapi.tgm.one/genRecipe";
 
   console.log("Ingredients being sent:", ingredients);
   fetch(apiUrl, {
@@ -82,7 +109,7 @@ function callRecipeAPI(ingredients) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ ingredients })
+    body: JSON.stringify({ ingredients: ingredients })
   })
       .then(response => {
         if (!response.ok) {

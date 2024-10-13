@@ -1,3 +1,4 @@
+      
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,19 +7,29 @@
   <title>EyeCook</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 </head>
 <body>
 <div class="container">
   <header>
-    <h1 class="logo">EyeCook</h1>
-    <button id="snapButton">
+    <div class="camera-container"> 
+      <h1 class="logo">EyeCook</h1>
+      <div id="cameraView">
+        <video id="video" autoplay></video>
+      </div>
+      <button id="snapButton">
         <span class="spectacles-icon">
           <div class="lens left-lens"></div>
           <div class="lens right-lens"></div>
           <div class="bridge"></div>
         </span>
-      Snap!
-    </button>
+        Snap!
+      </button>
+    </div>
   </header>
 
   <main>
@@ -27,13 +38,13 @@
       <p>Analyzing your image...</p>
     </div>
 
-    <div id="recipeResults">
+    <div id="recipeResults" style="display: none;">
       <h2>Recipes</h2>
       <ul id="recipeList">
       </ul>
     </div>
 
-    <div id="recipeDetails">
+    <div id="recipeDetails" style="display: none;">
       <button id="backButton">← Back</button>
       <h3 id="recipeName"></h3>
       <p id="cookingTime"></p>
@@ -49,3 +60,5 @@
 <script src="script.js"></script>
 </body>
 </html>
+
+    
